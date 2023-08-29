@@ -1,6 +1,9 @@
 
 #import module
 import pandas as pd
+from klass_courses import Courses
+from klass_mediastudent import Mediastudent
+from klass_student import Student
 
 """Import data"""
 media_courses, results = pd.read_csv((r"Git---interaktiv\1 - Python\Obligatorisk\ObligatoriskaMediaKurser.csv"), names= 
@@ -15,7 +18,11 @@ def media_student(student_courses, media_courses):
         return False
 
 for row in media_courses.iloc:
-    print(row.Course_code)
+    Courses(row.Course_code, row.Course_name, row.Points)
+    print(Courses(row.Course_code, row.Course_name, row.Points))
+
+print(Courses.objects)
+    
     
 #if media_student:
     
