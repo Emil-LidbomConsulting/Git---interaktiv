@@ -5,13 +5,19 @@ from klass_courses import Courses
 from klass_mediastudent import Mediastudent
 from klass_student import Student
 
-"""Import data"""
 
-media_courses, student_results = pd.read_csv((r"Git---interaktiv\1 - Python\Obligatorisk\ObligatoriskaMediaKurser.csv"), names= 
-                       ["Course_code","Course_name", "Points"], sep=";"), pd.read_csv((r"Git---interaktiv\1 - Python\Obligatorisk\Studieresultat.csv"), sep=";", names= [i for i in range(18)])
-                    
-#print(media_courses)
-#print(study_results.iloc[0][0:17])
+def read_file(file_name):
+    with open(file_name, "r", encoding="utf-8'") as file:
+        temp_list = []
+        for row in file:
+            temp_list.append(list_filter(row.strip().split(";")))
+        return temp_list
+
+
+def list_filter(list):
+    while "" in list:
+        list.remove("")
+    return list
 
 def media_student(student_courses, media_courses):
         if student_courses in media_courses:
@@ -19,30 +25,68 @@ def media_student(student_courses, media_courses):
         return False
 
 
-def add_courses(pd_df):
-    for row in pd_df.iloc:
-        Courses(row.Course_code, row.Course_name, row.Points)
+def add_courses(course_list):
+    temp_list = []
+    for list in course_list:
+        temp_list.append(Courses(list[0], list[1], float(list[2])))
+    return temp_list
+
+def add_media_students(student_list, course_list, total_points):
+    temp_list = []
+    for list in student_list:
+        if len(list) > 1:
+            points = calc_points(list[1:17], course_list)
+            percentage = calc_percentage(points, total_points)
+            temp_list.append(Mediastudent(list[0], list[1:17], points, percentage))
+        else:
+            temp_list.append(Mediastudent(list[0]))
+    return temp_list
 
 
-def add_students(pd_df):
-    for row in pd_df.iloc:
-        Mediastudent(row[0])
+def calc_percentage(points, total_points):
+    percentage = points / total_points
+    return round(percentage*100)
+    
+
+def calc_points(taken_course_list, course_list):
+    points = 0
+    for course in taken_course_list:
+        points += (find_points(course, course_list))
+    return points
         
-        for i in row[1:17]:
-            if str(i) != "nan":
-                Mediastudent.objects[-1].add_course(i)
+        
+def find_points(sought_code, course_list):
+        for course in course_list:
+            if course.code == sought_code:
+                return course.points
+        return 0
     
+ 
+def print_objects(object_list):
+    for i in object_list:
+        print(i)
+
+        
+            
+"""Import data"""    
+
+
+def main():
     
-add_courses(media_courses)
-add_students(student_results)
+    course_list = read_file(r"Git---interaktiv\1 - Python\Obligatorisk\ObligatoriskaMediaKurser.csv")
+    student_list = read_file(r"Git---interaktiv\1 - Python\Obligatorisk\Studieresultat.csv")
+        
+    course_objects = add_courses(course_list)
+    student_objects = add_media_students(student_list, course_objects, Courses.total_points)
 
-Mediastudent.objects[0].add_points(5)
-print(Mediastudent.objects[3])
+    print("Alla obligatoriska kurser:")
+    print_objects(course_objects)
+    print("Total obligatorisk poängsumma: " + str(Courses.total_points))
+    print("\nAlla studenter:")
+    print_objects(student_objects)
 
 
+main()
     
-
-    
-#if media_student:
     
 
