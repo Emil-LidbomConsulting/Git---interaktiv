@@ -6,4 +6,3 @@ class Mediastudent(Student):
         if self.courses in course_list:
             return True 
         return False
-    
