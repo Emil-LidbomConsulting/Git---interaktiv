@@ -24,7 +24,7 @@ class Student():
         Returns:
             _type_: string
         """
-        return self.name + " Andel avklarade: " + str(self.percentage)
+        return self.name + " Andel avklarade:   " + str(self.percentage) + "%"
 
 
 class TestKontakt(unittest.TestCase):

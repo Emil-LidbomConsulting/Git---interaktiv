@@ -45,7 +45,7 @@ def add_media_students(student_list, course_list, total_points):
 
 def calc_percentage(points, total_points):
     percentage = points / total_points
-    return round(percentage*100)
+    return round(percentage*100, 1)
     
 
 def calc_points(taken_course_list, course_list):
