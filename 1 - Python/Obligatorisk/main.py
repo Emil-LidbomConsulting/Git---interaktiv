@@ -66,22 +66,21 @@ def print_objects(object_list):
     for i in object_list:
         print(i)
 
-        
-            
-"""Import data"""    
-
 
 def main():
     
+    """Import data""" 
     course_list = read_file(r"Git---interaktiv\1 - Python\Obligatorisk\ObligatoriskaMediaKurser.csv")
     student_list = read_file(r"Git---interaktiv\1 - Python\Obligatorisk\Studieresultat.csv")
-        
+    
+    """Create object in classes"""    
     course_objects = add_courses(course_list)
-    student_objects = add_media_students(student_list, course_objects, Courses.total_points)
-
+    student_objects = add_media_students(student_list, course_objects, Courses.return_total_point())
+    
+    """Generate readout"""
     print("Alla obligatoriska kurser:")
     print_objects(course_objects)
-    print("Total obligatorisk poängsumma: " + str(Courses.total_points))
+    print("Total obligatorisk poängsumma: " + str(Courses.return_total_point()))
     print("\nAlla studenter:")
     print_objects(student_objects)
 
